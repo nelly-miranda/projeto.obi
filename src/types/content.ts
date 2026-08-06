@@ -1,5 +1,5 @@
 export type ContentStatus = 'draft' | 'review' | 'active' | 'archived'
-export type ContentSection = 'projeto' | 'pipelines' | 'documentacao'
+export type ContentSection = 'projeto' | 'pipelines' | 'base-conhecimento' | 'agentes'
 
 export interface ContentFrontmatter {
   title: string
@@ -16,6 +16,8 @@ export interface ContentFrontmatter {
   pipeline?: string
   team?: string
   objective?: string
+  // rastreabilidade: documento de origem (Google Docs, .docx, etc.) para humanos e agentes de IA
+  sourceUrl?: string
 }
 
 export interface ContentItem {

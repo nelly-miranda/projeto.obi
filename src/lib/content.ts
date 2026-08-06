@@ -5,7 +5,7 @@ import type { ContentItem, ContentFrontmatter, ContentSection, NavSection, NavIt
 
 const CONTENT_DIR = path.join(process.cwd(), 'content')
 
-const SECTION_ORDER: ContentSection[] = ['projeto', 'pipelines', 'documentacao']
+const SECTION_ORDER: ContentSection[] = ['projeto', 'pipelines', 'base-conhecimento', 'agentes']
 
 export function getContentDir(section: ContentSection): string {
   return path.join(CONTENT_DIR, section)
@@ -82,7 +82,8 @@ export function buildNav(): NavSection[] {
   const sectionMeta: Record<ContentSection, { label: string; icon: string }> = {
     projeto: { label: 'Projeto', icon: 'Building2' },
     pipelines: { label: 'CRM', icon: 'Workflow' },
-    documentacao: { label: 'Documentação', icon: 'BookOpen' },
+    'base-conhecimento': { label: 'Base de Conhecimento', icon: 'BookOpen' },
+    agentes: { label: 'Agentes', icon: 'Bot' },
   }
 
   const sections = getAllSections()

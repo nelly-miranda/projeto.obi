@@ -323,12 +323,14 @@ function card(
   valor: number,
   stageId: string,
   tarefaStatus: KanbanCard['tarefaStatus'] = null,
+  diasNaEtapa: number = 1,
 ): KanbanCard {
   return {
     id,
     title,
     empresa,
     contato,
+    contatos: [{ id: `${id}-contato-1`, nome: contato, cargo: 'Contato principal' }],
     fonte,
     valor,
     stageId,
@@ -337,6 +339,7 @@ function card(
     tarefas: [],
     camposPersonalizados: [],
     criadoEm: '2026-08-06',
+    diasNaEtapa,
   }
 }
 

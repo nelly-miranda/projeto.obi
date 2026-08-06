@@ -31,11 +31,23 @@ export interface CustomField {
   value: string
 }
 
+export interface KanbanContact {
+  id: string
+  nome: string
+  cargo?: string
+  telefone?: string
+  email?: string
+}
+
 export interface KanbanCard {
   id: string
   title: string
   empresa: string
+  cnpj?: string
+  pessoaFisica?: string
+  cpf?: string
   contato: string
+  contatos: KanbanContact[]
   fonte: string
   valor: number
   stageId: string
@@ -44,6 +56,8 @@ export interface KanbanCard {
   tarefas: KanbanTask[]
   camposPersonalizados: CustomField[]
   criadoEm: string
+  ultimaAtividade?: string
+  diasNaEtapa?: number
 }
 
 export type PipelineSlug = 'gdq' | 'nutricao' | 'oportunidades' | 'parceiros'

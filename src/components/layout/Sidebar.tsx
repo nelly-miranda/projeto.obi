@@ -5,7 +5,8 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import {
   Building2, Workflow, FileText, BarChart2, GitBranch,
-  Users, Target, BookOpen, Layers, PlusCircle, ChevronDown
+  Users, Target, BookOpen, Layers, PlusCircle, ChevronDown,
+  PanelLeftClose, PanelLeftOpen, Bot, Sparkles, ShieldCheck, PenLine, LineChart,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type { NavSection, NavItem } from '@/types/content'
@@ -14,6 +15,7 @@ import type { NavSection, NavItem } from '@/types/content'
 const ICONS: Record<string, React.ElementType> = {
   Building2, Workflow, FileText, BarChart2, GitBranch,
   Users, Target, BookOpen, Layers, PlusCircle,
+  Bot, Sparkles, ShieldCheck, PenLine, LineChart,
 }
 
 function NavIcon({ name, className }: { name: string; className?: string }) {
@@ -27,6 +29,7 @@ interface SidebarProps {
 
 export function Sidebar({ nav }: SidebarProps) {
   const pathname = usePathname()
+  const [collapsed, setCollapsed] = useState(false)
   const [openSections, setOpenSections] = useState<Record<string, boolean>>(() =>
     Object.fromEntries(nav.map((section) => [section.id, true])),
   )
@@ -36,98 +39,146 @@ export function Sidebar({ nav }: SidebarProps) {
   }
 
   return (
-    <aside className="flex h-full w-[240px] shrink-0 flex-col overflow-hidden">
-      {/* Logo */}
-      <div className="flex h-20 items-center px-5 py-5 border-b border-white/[0.06]">
-        <img
-          src="/obitec-logo.png"
-          alt="OBI.TEC"
-          className="logo-glow h-9 md:h-10 w-auto max-w-[90%] object-contain"
-        />
+    <aside
+      className={cn(
+        'flex h-full shrink-0 flex-col overflow-hidden transition-[width] duration-300 ease-in-out',
+        collapsed ? 'w-[64px]' : 'w-[240px]',
+      )}
+    >
+      {/* Logo + toggle (o botão fica sempre no canto superior) */}
+      <div
+        className={cn(
+          'flex h-20 shrink-0 items-center border-b border-white/[0.06]',
+          collapsed ? 'justify-center px-2' : 'justify-between px-5',
+        )}
+      >
+        {!collapsed && (
+          <img
+            src="/obitec-logo.png"
+            alt="OBI.TEC"
+            className="logo-glow h-9 md:h-10 w-auto max-w-[70%] object-contain"
+          />
+        )}
+        <button
+          type="button"
+          onClick={() => setCollapsed((v) => !v)}
+          className="shrink-0 rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-white/10 hover:text-white"
+          aria-label={collapsed ? 'Expandir menu' : 'Recolher menu'}
+          title={collapsed ? 'Expandir menu' : 'Recolher menu'}
+        >
+          {collapsed ? <PanelLeftOpen className="h-4 w-4" /> : <PanelLeftClose className="h-4 w-4" />}
+        </button>
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 overflow-y-auto py-4 px-2.5">
+      <nav className="sidebar-scroll flex-1 overflow-y-auto py-4 px-2.5">
         {nav.map((section) => {
           const isOpen = openSections[section.id] ?? true
+          const showItems = collapsed || isOpen
 
           return (
-          <div key={section.id} className="mb-5">
-            {/* Section label (gaveta) */}
-            <button
-              type="button"
-              onClick={() => toggleSection(section.id)}
-              className="flex w-full items-center gap-2 px-2.5 mb-1.5 py-1 rounded-lg hover:bg-white/[0.04] transition-colors"
-            >
-              <NavIcon name={section.icon} className="h-3 w-3 text-slate-600" />
-              <span className="text-[10px] font-semibold uppercase tracking-widest text-slate-600">
-                {section.label}
-              </span>
-              <ChevronDown
-                className={cn(
-                  'ml-auto h-3 w-3 text-slate-600 transition-transform duration-150',
-                  !isOpen && '-rotate-90',
-                )}
-              />
-            </button>
-
-            {/* Items */}
-            {isOpen && (
-            <ul className="space-y-1">
-              {section.items.map((item) => {
-                const href = item.section === 'pipelines'
-                  ? `/pipelines/${item.slug}/kanban`
-                  : `/${item.section}/${item.slug}`
-                const isActive = pathname === href
-
-                return (
-                  <li key={item.slug}>
-                    <Link
-                      href={href}
+            <div key={section.id} className="mb-5">
+              {/* Section label (gaveta) */}
+              {collapsed ? (
+                <div className="mb-1.5 flex justify-center py-1" title={section.label}>
+                  <NavIcon name={section.icon} className="h-3.5 w-3.5 text-slate-600" />
+                </div>
+              ) : (
+                <div className="flex items-center gap-1 mb-1.5">
+                  <Link
+                    href={`/${section.id}`}
+                    title={`Ver todos os documentos de ${section.label}`}
+                    className={cn(
+                      'flex flex-1 items-center gap-2 rounded-lg px-2.5 py-1 transition-colors',
+                      pathname === `/${section.id}`
+                        ? 'bg-white/[0.09] text-white'
+                        : 'hover:bg-white/[0.04]',
+                    )}
+                  >
+                    <NavIcon name={section.icon} className="h-3 w-3 text-slate-600" />
+                    <span className="text-[10px] font-semibold uppercase tracking-widest text-slate-600">
+                      {section.label}
+                    </span>
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={() => toggleSection(section.id)}
+                    aria-label={isOpen ? `Recolher ${section.label}` : `Expandir ${section.label}`}
+                    className="rounded-lg p-1 text-slate-600 hover:bg-white/[0.04] transition-colors"
+                  >
+                    <ChevronDown
                       className={cn(
-                        'group flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-[13px] transition-all duration-150',
-                        isActive
-                          ? 'bg-white/[0.09] text-white font-semibold'
-                          : 'text-slate-400 hover:bg-white/[0.05] hover:text-slate-200',
+                        'h-3 w-3 transition-transform duration-150',
+                        !isOpen && '-rotate-90',
+                      )}
+                    />
+                  </button>
+                </div>
+              )}
+
+              {/* Items */}
+              {showItems && (
+                <ul className="space-y-1">
+                  {section.items.map((item) => {
+                    const href = item.section === 'pipelines'
+                      ? `/pipelines/${item.slug}/kanban`
+                      : `/${item.section}/${item.slug}`
+                    const isActive = pathname === href
+
+                    return (
+                      <li key={item.slug}>
+                        <Link
+                          href={href}
+                          title={item.title}
+                          className={cn(
+                            'group flex items-center rounded-xl text-[13px] transition-all duration-150',
+                            collapsed ? 'justify-center p-2.5' : 'gap-2.5 px-3 py-2.5',
+                            isActive
+                              ? 'bg-white/[0.09] text-white font-semibold'
+                              : 'text-slate-400 hover:bg-white/[0.05] hover:text-slate-200',
+                          )}
+                        >
+                          <NavIcon
+                            name={item.icon}
+                            className={cn(isActive ? 'text-obi-400' : 'text-slate-500 group-hover:text-slate-300')}
+                          />
+                          {!collapsed && <span className="truncate font-medium">{item.title}</span>}
+                          {!collapsed && item.status === 'draft' && (
+                            <span className="ml-auto text-[9px] font-bold uppercase tracking-wider text-slate-600">
+                              rascunho
+                            </span>
+                          )}
+                        </Link>
+                      </li>
+                    )
+                  })}
+
+                  {/* New item */}
+                  <li>
+                    <Link
+                      href={`/${section.id}/new`}
+                      title="Novo documento"
+                      className={cn(
+                        'flex items-center rounded-xl text-slate-600 transition-colors hover:bg-white/[0.04] hover:text-slate-400',
+                        collapsed ? 'justify-center p-2.5' : 'gap-2.5 px-3 py-2.5 text-[12px]',
                       )}
                     >
-                      <NavIcon
-                        name={item.icon}
-                        className={cn(isActive ? 'text-obi-400' : 'text-slate-500 group-hover:text-slate-300')}
-                      />
-                      <span className="truncate font-medium">{item.title}</span>
-                      {item.status === 'draft' && (
-                        <span className="ml-auto text-[9px] font-bold uppercase tracking-wider text-slate-600">
-                          rascunho
-                        </span>
-                      )}
+                      <PlusCircle className="h-3.5 w-3.5" />
+                      {!collapsed && <span>Novo documento</span>}
                     </Link>
                   </li>
-                )
-              })}
+                </ul>
+              )}
 
-              {/* New item */}
-              <li>
-                <Link
-                  href={`/${section.id}/new`}
-                  className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-[12px] text-slate-600 hover:bg-white/[0.04] hover:text-slate-400 transition-colors"
-                >
-                  <PlusCircle className="h-3.5 w-3.5" />
-                  <span>Novo documento</span>
-                </Link>
-              </li>
-            </ul>
-            )}
-
-            <div className="mt-4 h-px bg-white/[0.055]" />
-          </div>
+              <div className="mt-4 h-px bg-white/[0.055]" />
+            </div>
           )
         })}
       </nav>
 
       {/* Footer */}
-      <div className="border-t border-white/[0.06] px-5 py-4">
-        <p className="text-[10px] text-slate-600">v0.1.0 · OBI.TEC © 2026</p>
+      <div className={cn('border-t border-white/[0.06] py-4', collapsed ? 'px-2 text-center' : 'px-5')}>
+        {!collapsed && <p className="text-[10px] text-slate-600">v0.1.0 · OBI.TEC © 2026</p>}
       </div>
     </aside>
   )

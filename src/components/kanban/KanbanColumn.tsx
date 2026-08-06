@@ -5,6 +5,7 @@ import { Info, Plus } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type { KanbanStage, KanbanCard } from '@/types/kanban'
 import { DealCard } from './DealCard'
+import { NewDealModal } from './NewDealModal'
 
 interface KanbanColumnProps {
   stage: KanbanStage
@@ -14,6 +15,7 @@ interface KanbanColumnProps {
   onDragStartDeal: (id: string) => void
   onDragEndDeal: () => void
   onDropDeal: (stageId: string) => void
+  onCreateDeal: (card: KanbanCard) => void
 }
 
 function formatCurrency(value: number): string {
@@ -29,9 +31,11 @@ export function KanbanColumn({
   onDragStartDeal,
   onDragEndDeal,
   onDropDeal,
+  onCreateDeal,
 }: KanbanColumnProps) {
   const [infoOpen, setInfoOpen] = useState(false)
   const [isOver, setIsOver] = useState(false)
+  const [newDealOpen, setNewDealOpen] = useState(false)
   const total = deals.reduce((sum, d) => sum + d.valor, 0)
 
   return (
@@ -45,10 +49,11 @@ export function KanbanColumn({
             <button
               type="button"
               onClick={() => setInfoOpen((v) => !v)}
-              className="rounded-full p-1 text-slate-400 hover:bg-white/10 hover:text-white"
+              className="flex items-center gap-1 rounded-full border border-white/20 bg-white/10 p-1.5 text-slate-200 hover:bg-white/20 hover:text-white"
               aria-label={`Informações sobre a etapa ${stage.name}`}
             >
               <Info className="h-3.5 w-3.5" />
+              <span className="hidden text-[10px] font-medium leading-none sm:inline">Info</span>
             </button>
 
             {infoOpen && (
@@ -107,12 +112,22 @@ export function KanbanColumn({
 
         <button
           type="button"
+          onClick={() => setNewDealOpen(true)}
           className="flex w-full items-center justify-center gap-1.5 rounded-2xl border border-dashed border-slate-300 py-2 text-[11px] text-slate-400 hover:border-obi-300 hover:text-obi-600"
         >
           <Plus className="h-3 w-3" />
           Negócio rápido
         </button>
       </div>
+
+      {newDealOpen && (
+        <NewDealModal
+          stageId={stage.id}
+          stageName={stage.name}
+          onClose={() => setNewDealOpen(false)}
+          onCreate={onCreateDeal}
+        />
+      )}
     </div>
   )
 }

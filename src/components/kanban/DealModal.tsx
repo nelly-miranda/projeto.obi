@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { X, Mail, MessageSquare, Plus, Building2, User, Tag, CheckSquare, Square } from 'lucide-react'
+import { X, Mail, MessageSquare, Plus, Building2, User, Tag, CheckSquare, Square, Phone, CreditCard, Calendar, Clock } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type { KanbanStage, KanbanCard, KanbanProduct, KanbanTask, CustomField } from '@/types/kanban'
 
@@ -140,6 +140,33 @@ export function DealModal({ deal, stages, onClose, onUpdate }: DealModalProps) {
                       <p className="text-xs font-medium text-slate-700">{deal.contato}</p>
                     </div>
                   </div>
+                  {deal.cnpj && (
+                    <div className="flex items-start gap-2">
+                      <CreditCard className="mt-0.5 h-3.5 w-3.5 text-obi-500" />
+                      <div>
+                        <p className="text-[10px] text-slate-400">CNPJ</p>
+                        <p className="text-xs font-medium text-slate-700">{deal.cnpj}</p>
+                      </div>
+                    </div>
+                  )}
+                  {deal.pessoaFisica && (
+                    <div className="flex items-start gap-2">
+                      <User className="mt-0.5 h-3.5 w-3.5 text-obi-500" />
+                      <div>
+                        <p className="text-[10px] text-slate-400">Pessoa física</p>
+                        <p className="text-xs font-medium text-slate-700">{deal.pessoaFisica}</p>
+                      </div>
+                    </div>
+                  )}
+                  {deal.cpf && (
+                    <div className="flex items-start gap-2">
+                      <CreditCard className="mt-0.5 h-3.5 w-3.5 text-obi-500" />
+                      <div>
+                        <p className="text-[10px] text-slate-400">CPF</p>
+                        <p className="text-xs font-medium text-slate-700">{deal.cpf}</p>
+                      </div>
+                    </div>
+                  )}
                   <div className="flex items-start gap-2">
                     <Tag className="mt-0.5 h-3.5 w-3.5 text-obi-500" />
                     <div>
@@ -151,6 +178,63 @@ export function DealModal({ deal, stages, onClose, onUpdate }: DealModalProps) {
                     <p className="text-[10px] text-slate-400">Valor</p>
                     <p className="text-xs font-medium text-slate-700">{formatCurrency(deal.valor)}</p>
                   </div>
+                  {deal.criadoEm && (
+                    <div className="flex items-start gap-2">
+                      <Calendar className="mt-0.5 h-3.5 w-3.5 text-obi-500" />
+                      <div>
+                        <p className="text-[10px] text-slate-400">Criado em</p>
+                        <p className="text-xs font-medium text-slate-700">{deal.criadoEm}</p>
+                      </div>
+                    </div>
+                  )}
+                  {deal.ultimaAtividade && (
+                    <div className="flex items-start gap-2">
+                      <Clock className="mt-0.5 h-3.5 w-3.5 text-obi-500" />
+                      <div>
+                        <p className="text-[10px] text-slate-400">Última atividade</p>
+                        <p className="text-xs font-medium text-slate-700">{deal.ultimaAtividade}</p>
+                      </div>
+                    </div>
+                  )}
+                  {typeof deal.diasNaEtapa === 'number' && (
+                    <div className="flex items-start gap-2">
+                      <Clock className="mt-0.5 h-3.5 w-3.5 text-obi-500" />
+                      <div>
+                        <p className="text-[10px] text-slate-400">Dias nesta etapa</p>
+                        <p className="text-xs font-medium text-slate-700">{deal.diasNaEtapa}</p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="rounded-2xl border border-slate-200 p-4">
+                <p className="mb-3 text-[10px] font-semibold uppercase tracking-wider text-slate-400">Contatos</p>
+                {deal.contatos.length === 0 && (
+                  <p className="text-xs text-slate-400">Nenhum contato adicional cadastrado.</p>
+                )}
+                <div className="space-y-3">
+                  {deal.contatos.map((c) => (
+                    <div key={c.id} className="flex items-start gap-2">
+                      <User className="mt-0.5 h-3.5 w-3.5 text-obi-500" />
+                      <div className="space-y-0.5">
+                        <p className="text-xs font-medium text-slate-700">
+                          {c.nome}
+                          {c.cargo && <span className="ml-1.5 text-[11px] font-normal text-slate-400">{c.cargo}</span>}
+                        </p>
+                        {c.telefone && (
+                          <div className="flex items-center gap-1.5 text-[11px] text-slate-500">
+                            <Phone className="h-3 w-3 text-obi-500" /> {c.telefone}
+                          </div>
+                        )}
+                        {c.email && (
+                          <div className="flex items-center gap-1.5 text-[11px] text-slate-500">
+                            <Mail className="h-3 w-3 text-obi-500" /> {c.email}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
 
@@ -162,7 +246,7 @@ export function DealModal({ deal, stages, onClose, onUpdate }: DealModalProps) {
                   {deal.camposPersonalizados.map((f) => (
                     <div key={f.id} className="flex items-center gap-2 text-xs">
                       <span className="w-28 shrink-0 text-slate-400">{f.label}</span>
-                      <span className="text-slate-700">{f.value || '—'}</span>
+                      <span className="text-slate-700">{f.value || 'Não preenchido'}</span>
                     </div>
                   ))}
                   <div className="flex items-center gap-2 pt-1">

@@ -1,7 +1,10 @@
 import React from 'react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { Pencil, Calendar, User, Tag, LayoutGrid } from 'lucide-react'
+import {
+  Pencil, Calendar, User, Tag, LayoutGrid, ArrowLeft, ExternalLink,
+  FileText, Target, Layers, Workflow, GitBranch, Users, Building2, BookOpen,
+} from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { getContentItem, getSectionItems, buildNav } from '@/lib/content'
@@ -11,6 +14,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { ContentCard } from '@/components/content/ContentCard'
 import { formatDate } from '@/lib/utils'
+import { cn } from '@/lib/utils'
 import type { ContentSection, ContentStatus } from '@/types/content'
 
 const STATUS_LABEL: Record<ContentStatus, string> = {
@@ -18,6 +22,15 @@ const STATUS_LABEL: Record<ContentStatus, string> = {
 }
 const STATUS_VARIANT: Record<ContentStatus, 'active' | 'draft' | 'review' | 'archived'> = {
   active: 'active', draft: 'draft', review: 'review', archived: 'archived',
+}
+
+const DOC_ICONS: Record<string, React.ElementType> = {
+  FileText, Target, Layers, Workflow, GitBranch, Users, Building2, BookOpen,
+}
+
+function DocIcon({ name, className }: { name?: string; className?: string }) {
+  const Icon = (name && DOC_ICONS[name]) || FileText
+  return <Icon className={cn('h-4 w-4', className)} />
 }
 
 interface PageProps {
@@ -52,6 +65,17 @@ export default async function ContentPage({ params }: PageProps) {
         {/* Top bar */}
         <header className="flex h-16 shrink-0 items-center justify-between gap-4 border-b border-slate-100 px-8">
           <div className="flex items-center gap-3 min-w-0">
+            <Link
+              href={`/${section}`}
+              className="flex shrink-0 items-center gap-1.5 rounded-full border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-500 transition-colors hover:border-obi-300 hover:bg-obi-50 hover:text-obi-700"
+            >
+              <ArrowLeft className="h-3.5 w-3.5" />
+              Voltar
+            </Link>
+            <div className="h-5 w-px shrink-0 bg-slate-200" />
+            <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-obi-50">
+              <DocIcon name={frontmatter.icon} className="text-obi-500" />
+            </div>
             <h1 className="truncate text-sm font-semibold text-slate-900">{frontmatter.title}</h1>
             <Badge variant={STATUS_VARIANT[frontmatter.status]}>
               {STATUS_LABEL[frontmatter.status]}
@@ -120,6 +144,17 @@ export default async function ContentPage({ params }: PageProps) {
                       </span>
                     ))}
                   </div>
+                )}
+                {frontmatter.sourceUrl && (
+                  <a
+                    href={frontmatter.sourceUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-xs font-medium text-obi-600 hover:text-obi-700 transition-colors"
+                  >
+                    <ExternalLink className="h-3.5 w-3.5" />
+                    Ver documento original
+                  </a>
                 )}
               </div>
             )}

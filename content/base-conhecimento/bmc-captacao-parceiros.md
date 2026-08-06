@@ -1,11 +1,11 @@
 ---
 title: "BMC: Captação de Parceiros"
-section: documentacao
+section: base-conhecimento
 slug: bmc-captacao-parceiros
 description: Business Model Canvas do processo de captação de novos parceiros da OBI.TEC.
 status: active
 icon: Layers
-order: 1
+order: 2
 owner: Marketing + Pré-vendas de Parcerias
 pipeline: parceiros
 lastUpdated: "2026-08-06"
@@ -13,6 +13,7 @@ tags:
   - BMC
   - parceiros
   - modelo de negócio
+sourceUrl: "https://docs.google.com/document/d/1Pm5usiF9A4af-s5xFFKClxf_QiR1CfO-OOkJwQhpVbs/edit"
 ---
 
 # Business Model Canvas: Captação de Parceiros
