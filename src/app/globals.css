@@ -1,0 +1,105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 239 84% 67%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 239 84% 67%;
+    --radius: 1.25rem;
+
+    /* OBI.TEC sidebar */
+    --sidebar-bg: #0A0A0F;
+    --sidebar-text: #94A3B8;
+    --sidebar-text-active: #F1F5F9;
+    --sidebar-hover: rgba(255,255,255,0.055);
+    --sidebar-active-bg: rgba(99,102,241,0.18);
+    --sidebar-active-border: #6366F1;
+    --sidebar-section: rgba(255,255,255,0.2);
+    --sidebar-separator: rgba(255,255,255,0.07);
+    --sidebar-width: 248px;
+
+    /* OBI.TEC "floating frame" surfaces — payflow-style redesign */
+    --app-bg: #000000;
+    --surface-dark: #0A0A0F;
+    --surface-dark-foreground: #F1F5F9;
+    --chart-bar-from: #F3EEE3;
+    --chart-bar-to: #DECBA0;
+    --chart-bar-active: #16161A;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply text-foreground;
+    background: var(--app-bg);
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+}
+
+/* ── Floating app frame (bezel) ──────────────────────────────────────── */
+.app-frame {
+  box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.35), 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* ── Logo glow ───────────────────────────────────────────────────────── */
+.logo-glow {
+  filter: drop-shadow(0 0 18px rgba(45, 212, 191, 0.5))
+          drop-shadow(0 0 42px rgba(59, 130, 246, 0.35))
+          drop-shadow(0 0 90px rgba(45, 212, 191, 0.18));
+}
+
+/* ── Tabular figures for currency / metrics ─────────────────────────── */
+.tabular-figures {
+  font-feature-settings: "tnum" 1, "cv02", "cv03", "cv04", "cv11";
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Markdown content styles ────────────────────────────────────────── */
+.prose-obi {
+  @apply text-slate-700 leading-relaxed;
+}
+.prose-obi h1 { @apply text-2xl font-bold text-slate-900 mb-4 mt-8 first:mt-0; }
+.prose-obi h2 { @apply text-lg font-bold text-slate-900 mb-3 mt-6; }
+.prose-obi h3 { @apply text-base font-semibold text-slate-800 mb-2 mt-5; }
+.prose-obi p  { @apply mb-4 text-sm leading-7; }
+.prose-obi ul { @apply mb-4 pl-0 list-none space-y-2; }
+.prose-obi ul li { @apply text-sm text-slate-600 pl-4 relative; }
+.prose-obi ul li::before { content: '→'; @apply absolute left-0 text-slate-400 text-xs top-[3px]; }
+.prose-obi ol { @apply mb-4 pl-5 list-decimal space-y-2; }
+.prose-obi ol li { @apply text-sm text-slate-600; }
+.prose-obi strong { @apply font-semibold text-slate-900; }
+.prose-obi blockquote { @apply border-l-2 border-obi-500 pl-4 py-1 bg-obi-50 rounded-r-lg text-slate-600 italic text-sm my-4; }
+.prose-obi code { @apply bg-slate-100 text-obi-700 px-1.5 py-0.5 rounded text-[0.8em] font-mono; }
+.prose-obi pre  { @apply bg-slate-900 text-slate-100 p-4 rounded-xl overflow-x-auto my-4 text-sm; }
+.prose-obi hr   { @apply border-slate-200 my-6; }
+.prose-obi table { @apply w-full text-sm border-collapse my-4; }
+.prose-obi th   { @apply bg-slate-900 text-white font-semibold text-left px-3 py-2 text-xs uppercase tracking-wider; }
+.prose-obi td   { @apply border-b border-slate-100 px-3 py-2 text-slate-600; }
+.prose-obi tr:nth-child(even) td { @apply bg-slate-50; }
+
+/* ── Scrollbar ─────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 8px; }
+::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
