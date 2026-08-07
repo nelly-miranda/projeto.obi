@@ -2,12 +2,14 @@
 title: Visão Geral
 section: projeto
 slug: visao-geral
-description: A nova estratégia da OBI.TEC, por que ela existe e como direciona posicionamento, mercados e receita.
+description: >-
+  A nova estratégia da OBI.TEC, por que ela existe e como direciona
+  posicionamento, mercados e receita.
 status: active
 icon: Building2
 order: 1
 owner: Equipe OBI.TEC
-lastUpdated: "2026-08-06"
+lastUpdated: '2026-08-07T11:09:27.947Z'
 tags:
   - estratégia
   - posicionamento

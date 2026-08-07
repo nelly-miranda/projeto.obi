@@ -11,6 +11,9 @@ const SECTION_DESCRIPTION: Partial<Record<ContentSection, string>> = {
     'Documentos-fonte de estratégia, BMC e pipelines da OBI.TEC. Cada card abre o documento completo dentro do app e também linka o Google Doc original, a mesma base que os agentes de IA leem para entender a estratégia e os pipelines de GDQ e Marketing.',
   pipelines: 'Processos operacionais de aquisição e relacionamento da OBI.TEC, etapa a etapa.',
   projeto: 'Contexto do projeto de transformação comercial da OBI.TEC.',
+  marketing: 'Plano de ação de marketing e seus desdobramentos: as fases, os objetivos e as tarefas que alimentam o pipeline comercial da OBI.TEC.',
+  gdq: 'Plano de trabalho do GDQ e suas tarefas: o desdobramento das 7 etapas do pipeline em fases de execução, com um Kanban por status.',
+  'produtos-servicos': 'Catálogo editável dos produtos e serviços da OBI.TEC, por vertical, com espaço para preencher quantidade e valor de cada item.',
   agentes: 'Agentes de IA do Claude Code conectados a este projeto, cada um fundamentado apenas no que está documentado em content/, nenhum inventa dados fora daqui.',
 }
 

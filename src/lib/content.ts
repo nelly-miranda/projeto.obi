@@ -5,7 +5,7 @@ import type { ContentItem, ContentFrontmatter, ContentSection, NavSection, NavIt
 
 const CONTENT_DIR = path.join(process.cwd(), 'content')
 
-const SECTION_ORDER: ContentSection[] = ['projeto', 'pipelines', 'base-conhecimento', 'agentes']
+const SECTION_ORDER: ContentSection[] = ['projeto', 'marketing', 'gdq', 'produtos-servicos', 'pipelines', 'base-conhecimento', 'agentes']
 
 export function getContentDir(section: ContentSection): string {
   return path.join(CONTENT_DIR, section)
@@ -81,12 +81,16 @@ export function deleteContentItem(section: ContentSection, slug: string): void {
 export function buildNav(): NavSection[] {
   const sectionMeta: Record<ContentSection, { label: string; icon: string }> = {
     projeto: { label: 'Projeto', icon: 'Building2' },
+    marketing: { label: 'Marketing', icon: 'Megaphone' },
+    gdq: { label: 'GDQ', icon: 'Target' },
+    'produtos-servicos': { label: 'Produtos e Serviços', icon: 'Package' },
     pipelines: { label: 'CRM', icon: 'Workflow' },
     'base-conhecimento': { label: 'Base de Conhecimento', icon: 'BookOpen' },
     agentes: { label: 'Agentes', icon: 'Bot' },
   }
 
-  const sections = getAllSections()
+  // "agentes" fica só como referência de conteúdo para as IAs, não aparece no menu
+  const sections = getAllSections().filter((section) => section !== 'agentes')
 
   return sections.map((section) => {
     const items = getSectionItems(section)

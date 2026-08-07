@@ -1,5 +1,5 @@
 export type ContentStatus = 'draft' | 'review' | 'active' | 'archived'
-export type ContentSection = 'projeto' | 'pipelines' | 'base-conhecimento' | 'agentes'
+export type ContentSection = 'projeto' | 'marketing' | 'gdq' | 'produtos-servicos' | 'pipelines' | 'base-conhecimento' | 'agentes'
 
 export interface ContentFrontmatter {
   title: string

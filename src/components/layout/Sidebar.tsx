@@ -5,8 +5,9 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import {
   Building2, Workflow, FileText, BarChart2, GitBranch,
-  Users, Target, BookOpen, Layers, PlusCircle, ChevronDown,
+  Users, Target, BookOpen, Layers, ChevronDown,
   PanelLeftClose, PanelLeftOpen, Bot, Sparkles, ShieldCheck, PenLine, LineChart,
+  Megaphone, LayoutGrid, Package, ListChecks,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type { NavSection, NavItem } from '@/types/content'
@@ -14,8 +15,9 @@ import type { NavSection, NavItem } from '@/types/content'
 // icon map for dynamic resolution
 const ICONS: Record<string, React.ElementType> = {
   Building2, Workflow, FileText, BarChart2, GitBranch,
-  Users, Target, BookOpen, Layers, PlusCircle,
+  Users, Target, BookOpen, Layers,
   Bot, Sparkles, ShieldCheck, PenLine, LineChart,
+  Megaphone, LayoutGrid, Package, ListChecks,
 }
 
 function NavIcon({ name, className }: { name: string; className?: string }) {
@@ -95,8 +97,8 @@ export function Sidebar({ nav }: SidebarProps) {
                         : 'hover:bg-white/[0.04]',
                     )}
                   >
-                    <NavIcon name={section.icon} className="h-3 w-3 text-slate-600" />
-                    <span className="text-[10px] font-semibold uppercase tracking-widest text-slate-600">
+                    <NavIcon name={section.icon} className="h-3 w-3 text-slate-300" />
+                    <span className="text-[11px] font-bold uppercase tracking-widest text-slate-200">
                       {section.label}
                     </span>
                   </Link>
@@ -152,21 +154,6 @@ export function Sidebar({ nav }: SidebarProps) {
                       </li>
                     )
                   })}
-
-                  {/* New item */}
-                  <li>
-                    <Link
-                      href={`/${section.id}/new`}
-                      title="Novo documento"
-                      className={cn(
-                        'flex items-center rounded-xl text-slate-600 transition-colors hover:bg-white/[0.04] hover:text-slate-400',
-                        collapsed ? 'justify-center p-2.5' : 'gap-2.5 px-3 py-2.5 text-[12px]',
-                      )}
-                    >
-                      <PlusCircle className="h-3.5 w-3.5" />
-                      {!collapsed && <span>Novo documento</span>}
-                    </Link>
-                  </li>
                 </ul>
               )}
 
