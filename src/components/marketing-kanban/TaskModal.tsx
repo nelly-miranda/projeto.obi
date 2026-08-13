@@ -1,7 +1,8 @@
 'use client'
 
 import React, { useEffect, useRef, useState } from 'react'
-import { X, User, Calendar, Layers, Paperclip, Send, Play, Pause, Check, Save } from 'lucide-react'
+import { X, User, Calendar, Layers, Paperclip, Send, Play, Pause, Check, Save, GripVertical } from 'lucide-react'
+import { cn } from '@/lib/utils'
 import type { MarketingTaskCard, MarketingPhase, TaskMessage, MarketingTaskStatus } from '@/types/marketing-plan'
 import { STATUS_LABEL, STATUS_OPTIONS } from '@/lib/task-status'
 
@@ -13,22 +14,60 @@ interface TaskModalProps {
   onUpdate: (id: string, patch: Partial<MarketingTaskCard>) => void
   onCreate?: (task: MarketingTaskCard) => void
   onSendMessage: (id: string, message: TaskMessage) => void
+  onSave?: () => void
 }
 
 let msgCounter = 0
 
-export function TaskModal({ task, phase, isNew, onClose, onUpdate, onCreate, onSendMessage }: TaskModalProps) {
+const MIN_PANEL_WIDTH = 320
+const MAX_PANEL_WIDTH = 760
+
+export function TaskModal({ task, phase, isNew, onClose, onUpdate, onCreate, onSendMessage, onSave }: TaskModalProps) {
   const [draft, setDraft] = useState(task)
   const [participantInput, setParticipantInput] = useState('')
   const [messageText, setMessageText] = useState('')
+  const [panelWidth, setPanelWidth] = useState(460)
+  const [resizing, setResizing] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const chatEndRef = useRef<HTMLDivElement>(null)
+  const titleRef = useRef<HTMLTextAreaElement>(null)
 
   const current = isNew ? draft : task
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [task.messages.length])
+
+  useEffect(() => {
+    if (titleRef.current) {
+      titleRef.current.style.height = 'auto'
+      titleRef.current.style.height = `${titleRef.current.scrollHeight}px`
+    }
+  }, [current.title])
+
+  const startResize = (e: React.MouseEvent) => {
+    e.preventDefault()
+    const startX = e.clientX
+    const startWidth = panelWidth
+    setResizing(true)
+
+    const onMove = (moveEvent: MouseEvent) => {
+      const next = startWidth + (moveEvent.clientX - startX)
+      setPanelWidth(Math.min(MAX_PANEL_WIDTH, Math.max(MIN_PANEL_WIDTH, next)))
+    }
+    const onUp = () => {
+      setResizing(false)
+      window.removeEventListener('mousemove', onMove)
+      window.removeEventListener('mouseup', onUp)
+    }
+    window.addEventListener('mousemove', onMove)
+    window.addEventListener('mouseup', onUp)
+  }
+
+  const handleSave = () => {
+    onSave?.()
+    onClose()
+  }
 
   const patch = (p: Partial<MarketingTaskCard>) => {
     if (isNew) setDraft((d) => ({ ...d, ...p }))
@@ -81,7 +120,10 @@ export function TaskModal({ task, phase, isNew, onClose, onUpdate, onCreate, onS
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 p-4" onClick={onClose}>
       <div
         onClick={(e) => e.stopPropagation()}
-        className="relative flex h-[92vh] w-full max-w-6xl overflow-hidden rounded-3xl bg-white shadow-card-lg"
+        className={cn(
+          'relative flex h-[92vh] w-full max-w-6xl overflow-hidden rounded-3xl bg-white shadow-card-lg',
+          resizing && 'select-none',
+        )}
       >
         <button
           type="button"
@@ -93,12 +135,17 @@ export function TaskModal({ task, phase, isNew, onClose, onUpdate, onCreate, onS
         </button>
 
         {/* Painel de campos */}
-        <div className="flex w-[460px] shrink-0 flex-col overflow-y-auto border-r border-slate-100 p-7 pr-14">
-          <input
+        <div
+          style={{ width: panelWidth }}
+          className="flex shrink-0 flex-col overflow-y-auto p-7 pr-14"
+        >
+          <textarea
+            ref={titleRef}
             value={current.title}
             onChange={(e) => patch({ title: e.target.value })}
             placeholder="Nome da tarefa"
-            className="mb-4 w-full text-xl font-bold leading-snug text-slate-900 focus:outline-none"
+            rows={1}
+            className="mb-4 w-full resize-none overflow-hidden text-xl font-bold leading-snug text-slate-900 focus:outline-none"
           />
 
           <textarea
@@ -215,7 +262,7 @@ export function TaskModal({ task, phase, isNew, onClose, onUpdate, onCreate, onS
               <div className="flex flex-wrap gap-2">
                 <button
                   type="button"
-                  onClick={onClose}
+                  onClick={handleSave}
                   className="flex flex-1 items-center justify-center gap-1.5 rounded-full bg-slate-900 py-2 text-xs font-semibold text-white hover:bg-slate-800"
                 >
                   <Save className="h-3 w-3" />
@@ -266,6 +313,19 @@ export function TaskModal({ task, phase, isNew, onClose, onUpdate, onCreate, onS
             )}
           </div>
         </div>
+
+        {/* Alça para redimensionar o painel de campos e o bate-papo */}
+        {!isNew && (
+          <div
+            onMouseDown={startResize}
+            className={cn(
+              'group relative flex w-2 shrink-0 cursor-col-resize items-center justify-center bg-slate-100 transition-colors hover:bg-obi-200',
+              resizing && 'bg-obi-300',
+            )}
+          >
+            <GripVertical className="h-4 w-4 text-slate-400 group-hover:text-obi-600" />
+          </div>
+        )}
 
         {/* Bate-papo interno da tarefa */}
         {!isNew && (

@@ -1,21 +1,29 @@
 ---
-title: "Plano Estratégico de Marketing e Vendas"
+title: Plano Estratégico de Marketing e Vendas
 section: base-conhecimento
 slug: plano-marketing-vendas
-description: "Plano estratégico completo de marketing e vendas da OBI.TEC: cenário de mercado, as três teses norteadoras (identidade e posicionamento, Modelo PCP, pontes largas) e o plano de execução em 5 fases."
+description: >-
+  Plano estratégico completo de marketing e vendas da OBI.TEC: cenário de
+  mercado, as três teses norteadoras (identidade e posicionamento, Modelo PCP,
+  pontes largas) e o plano de execução em 5 fases.
 status: active
 icon: Target
 order: 1
 owner: Marketing + Comercial
-lastUpdated: "2026-08-06"
+lastUpdated: '2026-08-07T13:48:03.861Z'
 tags:
   - estratégia
   - marketing
   - vendas
   - Modelo PCP
   - posicionamento
-objective: "Estruturar o motor de aquisição da OBI.TEC saindo da dependência de indicação pessoal para uma máquina de crescimento previsível, ancorada em identidade de marca, no Modelo PCP (Percepção, Contexto, Permissão) e na estratégia de Pontes Largas em ecossistemas B2B."
-sourceUrl: "https://docs.google.com/document/d/1PBVFpzdQbh0rRyntoXzOdeeozn8Xk-pe71FVirL93Ts/edit"
+objective: >-
+  Estruturar o motor de aquisição da OBI.TEC saindo da dependência de indicação
+  pessoal para uma máquina de crescimento previsível, ancorada em identidade de
+  marca, no Modelo PCP (Percepção, Contexto, Permissão) e na estratégia de
+  Pontes Largas em ecossistemas B2B.
+sourceUrl: >-
+  https://docs.google.com/document/d/1PBVFpzdQbh0rRyntoXzOdeeozn8Xk-pe71FVirL93Ts/edit
 ---
 
 # Plano Estratégico de Marketing e Vendas

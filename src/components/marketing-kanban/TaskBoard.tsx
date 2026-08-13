@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type { MarketingPhase, MarketingTaskCard, TaskMessage } from '@/types/marketing-plan'
+import { SaveToast } from '@/components/ui/save-toast'
 import { TaskColumn } from './TaskColumn'
 import { TaskModal } from './TaskModal'
 
@@ -37,6 +38,7 @@ export function TaskBoard({ phases, initialTasks }: TaskBoardProps) {
   const [draggingId, setDraggingId] = useState<string | null>(null)
   const [openTaskId, setOpenTaskId] = useState<string | null>(null)
   const [draftTask, setDraftTask] = useState<MarketingTaskCard | null>(null)
+  const [showSaveToast, setShowSaveToast] = useState(false)
 
   const scrollRef = useRef<HTMLDivElement>(null)
   const scrollSpeedRef = useRef(0)
@@ -152,8 +154,11 @@ export function TaskBoard({ phases, initialTasks }: TaskBoardProps) {
           onClose={() => setOpenTaskId(null)}
           onUpdate={updateTask}
           onSendMessage={sendMessage}
+          onSave={() => setShowSaveToast(true)}
         />
       )}
+
+      {showSaveToast && <SaveToast message="Tarefa salva" onDone={() => setShowSaveToast(false)} />}
 
       {draftTask && (
         <TaskModal

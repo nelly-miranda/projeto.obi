@@ -7,7 +7,7 @@ import {
   Building2, Workflow, FileText, BarChart2, GitBranch,
   Users, Target, BookOpen, Layers, ChevronDown,
   PanelLeftClose, PanelLeftOpen, Bot, Sparkles, ShieldCheck, PenLine, LineChart,
-  Megaphone, LayoutGrid, Package, ListChecks,
+  Megaphone, LayoutGrid, Package, ListChecks, GraduationCap,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type { NavSection, NavItem } from '@/types/content'
@@ -17,7 +17,7 @@ const ICONS: Record<string, React.ElementType> = {
   Building2, Workflow, FileText, BarChart2, GitBranch,
   Users, Target, BookOpen, Layers,
   Bot, Sparkles, ShieldCheck, PenLine, LineChart,
-  Megaphone, LayoutGrid, Package, ListChecks,
+  Megaphone, LayoutGrid, Package, ListChecks, GraduationCap,
 }
 
 function NavIcon({ name, className }: { name: string; className?: string }) {

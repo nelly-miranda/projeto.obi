@@ -1,14 +1,16 @@
 ---
-title: "Pipeline GDQ"
+title: Pipeline GDQ
 section: pipelines
 slug: gdq
-description: Do primeiro contato ao encaminhamento qualificado, cada etapa com objetivo, atividades e critério de avanço
+description: >-
+  Do primeiro contato ao encaminhamento qualificado, cada etapa com objetivo,
+  atividades e critério de avanço
 status: active
 icon: GitBranch
 order: 2
-owner: "Marketing + Pré-vendas"
-team: "Marketing e Pré-vendas integrados"
-lastUpdated: "2026-08-06"
+owner: Marketing + Pré-vendas
+team: Marketing e Pré-vendas integrados
+lastUpdated: '2026-08-07T18:00:17.208Z'
 tags:
   - GDQ
   - marketing
